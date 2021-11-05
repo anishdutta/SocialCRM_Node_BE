@@ -160,40 +160,126 @@ app.get("/api/getCustomReply/:id", (req, res) => {
     });
 });
 app.post("/send_mail", cors(), async (req, res) => {
+	const userId = req.body.userId;
 	const Message = req.body.Message;
 	const Subject = req.body.Subject;
 	const To = req.body.To;
-    const from = `${req.body.from} <anish2000.ad@gmail.com>`
+  const from = `${req.body.from} <anish2000.ad@gmail.com>`
+  const timeStamp = new Date().valueOf();
 
-	const transport = nodemailer.createTransport({
-		service: "gmail",
-		auth: {
-			user: "sociophin.services@gmail.com",
-			pass: "socioPhin@services123"
-		}
-	})
-
-	await transport.sendMail({
-		from: from,
-		to: To,
-		subject: Subject,
-		html: `<div className="email" style="
-        border: 1px solid black;
-        padding: 20px;
-        font-family: sans-serif;
-        line-height: 2;
-        font-size: 20px; 
-        ">
-        <h2>Here is your email!</h2>
-        <p>${Message}</p>
+    db.query(
+      `insert into EmailMarketing (userId,templateId,emailId,timeStamp,subject,body ) values ('${userId}', '123', '${To}', '${timeStamp}', '${Subject}', '${Message}');`,
+      (err, result) => {
+        if (err) {
+            res.status(400).send(err.sqlMessage);
+        }
+        else{
+            console.log(result);
+            if(result.affectedRows === 0){
+                res.status(400).send("Could not delete");
     
-        <p>All the best man</p>
-         </div>
-    `
-	})
+            }
+            else{
+                const transport = nodemailer.createTransport({
+                  service: "gmail",
+                  auth: {
+                    user: "sociophin.services@gmail.com",
+                    pass: "socioPhin@services123"
+                  }
+                })
+                transport.sendMail({
+                  from: from,
+                  to: To,
+                  subject: Subject,
+                  html: `<div className="email" style="
+                      border: 1px solid black;
+                      padding: 20px;
+                      font-family: sans-serif;
+                      line-height: 2;
+                      font-size: 20px; 
+                      ">
+                      <h2>Here is your email!</h2>
+                      <p>${Message}</p>
+                  
+                      <p>All the best man</p>
+                       </div>
+                  `
+                })
+                res.send('Email Sent');
+            }
+        }
+        
+      }
+    );
 
-	res.send('Email Sent');
+
+
+	
+
+	
 })
+app.post("/api/addEmailList", (req, res) => {
+  const userId = req.body.userId;
+  const emailId = req.body.emailId;
+  const lastEmail = " ";
+  const timestamp = new Date().valueOf();
+  const schedule = req.body.schedule;
+  
+
+
+  db.query(
+    `insert into EmailList (userId,emailId,lastEmail,timestamp, schedule ) values ('${userId}', '${emailId}','${lastEmail}', '${timestamp}','${schedule}');`,
+    (err, result) => {
+      if (err) {
+          res.status(400).send(err.sqlMessage);
+      }
+      else{
+          console.log(result); res.send("Succefully added to db");
+      }
+      
+    }
+  );
+ 
+});
+app.get("/api/getEmailList/:id", (req, res) => {
+  const UserId = req.params.id;
+  db.query(`SELECT * FROM SocialCRM.EmailList where UserId="${UserId}";`, (err, result) => {
+    if (err) {
+      res.status(400).send(err.sqlMessage);
+
+    }
+    else{
+      console.log(result.affectedRows);
+      if(result.affectedRows === 0){
+          res.status(400).send("Could not delete");
+
+      }
+      else{
+          res.send(result);
+      }
+      
+    }
+
+    
+  });
+});
+app.get("/api/getSendEmailList/:id", (req, res) => {
+  const UserId = req.params.id;
+  db.query(`SELECT * FROM SocialCRM.EmailMarketing where UserId="${UserId}";`, (err, result) => {
+    if (err) {
+      res.status(400).send(err.sqlMessage);
+
+    }
+    else{
+      
+          res.send(result);
+      
+      
+    }
+
+    
+  });
+});
 app.listen(process.env.PORT || 4000, () => {
     console.log(`Example app listening at http://localhost: 4000`);
   });
