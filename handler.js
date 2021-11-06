@@ -1,9 +1,10 @@
+const serverless = require("serverless-http");
 const express = require("express");
+const app = express();
+
 var bodyParser = require("body-parser");
 const db = require("./config/db");
-const app = express();
 require("dotenv").config();
-const debug = require('debug')('myapp:server');
 
 const cors = require("cors");
 const nodemailer = require("nodemailer");
@@ -13,9 +14,8 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.get('/', function(req,res) {
-    return res.send("hello from my app express server!")
+    return res.send("hello from mytfyy app express server!")
 })
-
 app.get("/api/getUserDetails/:id", (req, res) => {
     const UserId = req.params.id;
     db.query(`SELECT * FROM SocialCRM.UserDetails where UserId="${UserId}";`, (err, result) => {
@@ -283,3 +283,5 @@ app.get("/api/getSendEmailList/:id", (req, res) => {
 app.listen(process.env.PORT || 4000, () => {
     console.log(`Example app listening at http://localhost: 4000`);
   });
+
+module.exports.handler = serverless(app);
