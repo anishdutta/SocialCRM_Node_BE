@@ -204,8 +204,18 @@ app.post("/send_mail", cors(), async (req, res) => {
                       <p>All the best man</p>
                        </div>
                   `
+                },(err2, res2)=>{
+                  if(err2){
+                    res.status(400).send(err2);
+
+                  }
+                  else{
+                    res.send(res2);
+                  }
+                  
+
                 })
-                res.send('Email Sent');
+                
             }
         }
         

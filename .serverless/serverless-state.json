@@ -220,7 +220,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/my-aws-node-express-api-app/dev/1636187589527-2021-11-06T08:33:09.527Z/my-aws-node-express-api-app.zip"
+                "S3Key": "serverless/my-aws-node-express-api-app/dev/1636382085165-2021-11-08T14:34:45.165Z/my-aws-node-express-api-app.zip"
               },
               "Handler": "s_api.handler",
               "Runtime": "nodejs12.x",
@@ -238,14 +238,14 @@
               "ApiLogGroup"
             ]
           },
-          "ApiLambdaVersionv5g2jN7Mn8CJSMvmRN8Vbii5lXIjCKFzdcJlczZ3Lo": {
+          "ApiLambdaVersionV6svEbHGVuQmwleXx4UYRehlZ3uxrLwk4iZCsD0": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ApiLambdaFunction"
               },
-              "CodeSha256": "OGcfPfMzMgYgUhlKLoF40+hv2zci3QxgCbVGB5PNAL8="
+              "CodeSha256": "Bki3qJz1p5bcKulitoa/Er5Jn2/NNQ/VhNS3Eqt+/hw="
             }
           },
           "ApiGatewayRestApi": {
@@ -370,7 +370,7 @@
               "ApiLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1636187579905": {
+          "ApiGatewayDeployment1636382072794": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -529,7 +529,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/my-aws-node-express-api-app/dev/1636187589527-2021-11-06T08:33:09.527Z/custom-resources.zip"
+                "S3Key": "serverless/my-aws-node-express-api-app/dev/1636382085165-2021-11-08T14:34:45.165Z/custom-resources.zip"
               },
               "FunctionName": "my-aws-node-express-api-app-dev-custom-resource-apigw-cw-role",
               "Handler": "apiGatewayCloudWatchRole/handler.handler",
@@ -591,7 +591,7 @@
           "ApiLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ApiLambdaVersionv5g2jN7Mn8CJSMvmRN8Vbii5lXIjCKFzdcJlczZ3Lo"
+              "Ref": "ApiLambdaVersionV6svEbHGVuQmwleXx4UYRehlZ3uxrLwk4iZCsD0"
             },
             "Export": {
               "Name": "sls-my-aws-node-express-api-app-dev-ApiLambdaFunctionQualifiedArn"
@@ -740,7 +740,7 @@
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "ApiLambdaVersionv5g2jN7Mn8CJSMvmRN8Vbii5lXIjCKFzdcJlczZ3Lo"
+        "versionLogicalId": "ApiLambdaVersionV6svEbHGVuQmwleXx4UYRehlZ3uxrLwk4iZCsD0"
       }
     },
     "configValidationMode": "warn",
@@ -769,7 +769,7 @@
     "artifact": "C:\\Users\\anish\\Documents\\GitHub\\SocialCRM_Node_BE\\.serverless\\my-aws-node-express-api-app.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/my-aws-node-express-api-app/dev/1636187589527-2021-11-06T08:33:09.527Z",
+    "artifactDirectoryName": "serverless/my-aws-node-express-api-app/dev/1636382085165-2021-11-08T14:34:45.165Z",
     "artifact": "my-aws-node-express-api-app.zip"
   }
 }
