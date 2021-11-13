@@ -2,6 +2,7 @@ const serverless = require("serverless-http");
 const express = require("express");
 const app = express();
 const debug = require('debug')('myapp:server');
+var cron = require('node-cron');
 
 
 var bodyParser = require("body-parser");
@@ -45,7 +46,107 @@ app.post('/testUpload', upload.single('file'), function(req,res) {
   return res.send(req.file);
 })
 
+cron.schedule('*/1 * * * * *', () => {
+  var allMails = {};
+  db.query(`SELECT * FROM SocialCRM.EmailList where current_timestamp() = schedule;`, (err, result) => {
+    if (err) {
+      console.log(err)
+
+    }
+    else{
+      
+      allMails['Mails'] = result;
+      // console.log(allMails['Mails']);
+      for(var i=0; i<allMails['Mails'].length; i++){
+        
+        console.log(allMails['Mails'][i]['timestamp']);
+
+        const userId = allMails['Mails'][i]['userId'];
+        const Message = "scheduler test done";
+        const Subject = "schedule body";
+        const To = allMails['Mails'][i]['emailId'];
+        const from = `ScheduleOrg <anish2000.ad@gmail.com>`
+        const timeStamp = new Date().valueOf()+i;
+      
+          db.query(
+            `insert into EmailMarketing (userId,templateId,emailId,timeStamp,subject,body ) values ('${userId}', '123', '${To}', '${timeStamp}', '${Subject}', '${Message}');`,
+            (err, result) => {
+              if (err) {
+                  console.log(err.sqlMessage)
+              }
+              else{
+                  console.log(result);
+                  if(result.affectedRows === 0){
+                      console.log("Error");
+          
+                  }
+                  else{
+                      const transport = nodemailer.createTransport({
+                        service: "gmail",
+                        auth: {
+                          user: "sociophin.services@gmail.com",
+                          pass: "socioPhin@services123"
+                        }
+                      })
+                      transport.sendMail({
+                        from: from,
+                        to: To,
+                        subject: Subject,
+                        html: `<div className="email" style="
+                            border: 1px solid black;
+                            padding: 20px;
+                            font-family: sans-serif;
+                            line-height: 2;
+                            font-size: 20px; 
+                            ">
+                            <h2>Here is your email!</h2>
+                            <p>${Message}</p>
+                        
+                            <p>All the best man</p>
+                             </div>
+                        `
+                      },(err2, res2)=>{
+                        if(err2){
+                          console.log("some rrrr");
+      
+                        }
+                        else{
+                          
+                          // db.query(
+                          //   `UPDATE SocialCRM.EmailList SET schedule = '3022-11-13 19:07:12' WHERE (timestamp = '${allMails['Mails'][i]['timestamp']}');`,
+                          //   (err, result) => {
+                          //     if (err) {
+                          //       console.log(err);
+                          //     }
+                          //     else{
+                          //       console.log("Update");
+                          //         console.log(result);
+                          //     }
+                              
+                          //   }
+                          // );
+                          console.log("sent");
+                        }
+                        
+      
+                      })
+                      
+                  }
+              }
+              
+            }
+          );
+      }
+      
+    }
+
+    
+  });
+  // console.log('running a task 5 minutes');
+});
+
 app.get('/', function(req,res) {
+  
     return res.send("hello from mytfyy app express server!")
 })
 app.get("/api/getUserDetails/:id", (req, res) => {
