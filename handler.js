@@ -1,6 +1,8 @@
 const serverless = require("serverless-http");
 const express = require("express");
 const app = express();
+const debug = require('debug')('myapp:server');
+
 
 var bodyParser = require("body-parser");
 const db = require("./config/db");
@@ -12,6 +14,36 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(cors());
+const path = require('path');
+const multer = require('multer');
+const logger = require('morgan');
+const serveIndex = require('serve-index')
+
+var storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './public/uploads')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+    }
+});
+
+//will be using this for uplading
+const upload = multer({ storage: storage });
+
+//get the router
+
+app.use(logger('tiny'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+//app.use(express.static('public'));
+app.use('/ftp', express.static('public'), serveIndex('public', {'icons': true}));
+
+app.post('/testUpload', upload.single('file'), function(req,res) {
+  debug(req.file);
+  console.log('storage location is ', req.hostname +'/' + req.file.path);
+  return res.send(req.file);
+})
 
 app.get('/', function(req,res) {
     return res.send("hello from mytfyy app express server!")
