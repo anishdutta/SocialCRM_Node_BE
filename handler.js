@@ -40,16 +40,18 @@ aws.config.update({
 
 const s3 = new aws.S3();
 
+
+
 const upload = multer({
   storage: multerS3({
     s3: s3,
-    bucket: 'sociophinbucket',
-    acl: 'public-read',
+    bucket: 'sociophinbucket/public_asset',
+    acl: 'public-read-write',
     metadata: function (req, file, cb) {
       cb(null, {fieldName: file.fieldname});
     },
     key: function (req, file, cb) {
-      cb(null, Date.now().toString())
+      cb(null, Date.now().toString() + (file.originalname))
     }
   })
 })
@@ -57,6 +59,7 @@ const singleUpload = upload.single('image')
 
 
 app.post('/image-upload', function(req, res) {
+  
   singleUpload(req, res, function(err, some) {
     if (err) {
       return res.status(422).send(err);
@@ -84,7 +87,7 @@ var storage = multer.diskStorage({
 app.use(logger('tiny'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static('public'));
+// app.use(express.static('public'));
 app.use('/ftp', express.static('public'), serveIndex('public', {'icons': true}));
 
 app.post('/testUpload', upload.single('file'), function(req,res) {
