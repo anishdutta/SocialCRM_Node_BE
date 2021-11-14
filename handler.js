@@ -46,7 +46,7 @@ const upload = multer({
   storage: multerS3({
     s3: s3,
     bucket: 'sociophinbucket/public_asset',
-    acl: 'public-read-write',
+    acl: 'public-read',
     metadata: function (req, file, cb) {
       cb(null, {fieldName: file.fieldname});
     },
@@ -281,6 +281,26 @@ app.post("/api/createCustomReply", (req, res) => {
   
     db.query(
       `insert into customReply (userId,message ) values ('${userId}', '${message}');`,
+      (err, result) => {
+        if (err) {
+            res.status(400).send(err.sqlMessage);
+        }
+        else{
+            console.log(result); res.send("Succefully added to db");
+        }
+        
+      }
+    );
+   
+});
+app.post("/api/createMassMail", (req, res) => {
+    const userId = req.body.userId;
+    const schedule = req.body.schedule;
+    
+  
+  
+    db.query(
+      `update EmailList set schedule="${schedule}" where userId="${userId}"`,
       (err, result) => {
         if (err) {
             res.status(400).send(err.sqlMessage);
