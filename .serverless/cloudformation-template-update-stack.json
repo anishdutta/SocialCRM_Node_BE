@@ -207,7 +207,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/my-aws-node-express-api-app/dev/1636825778922-2021-11-13T17:49:38.922Z/my-aws-node-express-api-app.zip"
+          "S3Key": "serverless/my-aws-node-express-api-app/dev/1636902294578-2021-11-14T15:04:54.578Z/my-aws-node-express-api-app.zip"
         },
         "Handler": "s_api.handler",
         "Runtime": "nodejs12.x",
@@ -225,14 +225,14 @@
         "ApiLogGroup"
       ]
     },
-    "ApiLambdaVersionP54o9iaaGmCfzM7SGFNe3l6rnPTHVSIxlgo0zOA3is": {
+    "ApiLambdaVersioneIjediBgwcQxZVQxCcPYkXzSCRQggta6gvoPBuKf4c": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ApiLambdaFunction"
         },
-        "CodeSha256": "OIO6Vvd8gmz7RldmY7w5j4urfrXpafMv4zZxdlvSPAA="
+        "CodeSha256": "niWuznUCy0nP7VC5wXi8XpHl4bkRiSzEpmWr59nthuc="
       }
     },
     "ApiGatewayRestApi": {
@@ -357,7 +357,7 @@
         "ApiLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1636825768750": {
+    "ApiGatewayDeployment1636902280640": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -516,7 +516,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/my-aws-node-express-api-app/dev/1636825778922-2021-11-13T17:49:38.922Z/custom-resources.zip"
+          "S3Key": "serverless/my-aws-node-express-api-app/dev/1636902294578-2021-11-14T15:04:54.578Z/custom-resources.zip"
         },
         "FunctionName": "my-aws-node-express-api-app-dev-custom-resource-apigw-cw-role",
         "Handler": "apiGatewayCloudWatchRole/handler.handler",
@@ -578,7 +578,7 @@
     "ApiLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ApiLambdaVersionP54o9iaaGmCfzM7SGFNe3l6rnPTHVSIxlgo0zOA3is"
+        "Ref": "ApiLambdaVersioneIjediBgwcQxZVQxCcPYkXzSCRQggta6gvoPBuKf4c"
       },
       "Export": {
         "Name": "sls-my-aws-node-express-api-app-dev-ApiLambdaFunctionQualifiedArn"

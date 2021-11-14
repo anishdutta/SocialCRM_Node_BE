@@ -3,22 +3,69 @@ const express = require("express");
 const app = express();
 const debug = require('debug')('myapp:server');
 var cron = require('node-cron');
-
+var helmet = require('helmet');
 
 var bodyParser = require("body-parser");
 const db = require("./config/db");
 require("dotenv").config();
 
+
 const cors = require("cors");
 const nodemailer = require("nodemailer");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(helmet());
 
 app.use(cors());
+
 const path = require('path');
 const multer = require('multer');
 const logger = require('morgan');
 const serveIndex = require('serve-index')
+
+const multerS3 = require('multer-s3');
+const aws = require('aws-sdk');
+
+aws.config.update({
+  // Your SECRET ACCESS KEY from AWS should go here,
+  // Never share it!
+  // Setup Env Variable, e.g: process.env.SECRET_ACCESS_KEY
+  secretAccessKey: "O730x0FfSClxOEHeylDmw1wdPk8ivgaSt83T2FaQ",
+  // Not working key, Your ACCESS KEY ID from AWS should go here,
+  // Never share it!
+  // Setup Env Variable, e.g: process.env.ACCESS_KEY_ID
+  accessKeyId: "AKIA2HYFZ4WZY2XXZEN5",
+  region: 'us-east-1' // region of your bucket
+});
+
+const s3 = new aws.S3();
+
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'sociophinbucket',
+    acl: 'public-read',
+    metadata: function (req, file, cb) {
+      cb(null, {fieldName: file.fieldname});
+    },
+    key: function (req, file, cb) {
+      cb(null, Date.now().toString())
+    }
+  })
+})
+const singleUpload = upload.single('image')
+
+
+app.post('/image-upload', function(req, res) {
+  singleUpload(req, res, function(err, some) {
+    if (err) {
+      return res.status(422).send(err);
+    }
+
+    return res.json({'imageUrl': req.file.location});
+  });
+})
+  
 
 var storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -30,7 +77,7 @@ var storage = multer.diskStorage({
 });
 
 //will be using this for uplading
-const upload = multer({ storage: storage });
+// const upload = multer({ storage: storage });
 
 //get the router
 
