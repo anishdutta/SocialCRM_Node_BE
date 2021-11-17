@@ -1,4 +1,27 @@
-# Serverless Framework Node Express API on AWS
+<center><img src="https://files.readme.io/7d79f02-Untitled_design_8.png" ></center>
+
+# SocioPhin
+
+Create a powerful social network for your organization and attract the right users leveraging technology at its best.
+
+With over 3 billion active users, social media is a platform where consumers spend time every day conversing to one another about their likes, dislikes, and interests. Every business, from SMEs to large corporations, needs a social media plan to broaden their reach, raise brand awareness, attract new consumers, and engage existing customers with valuable content.
+
+# What it does
+
+SocioPhin integrates social media platforms with customer relationship management (CRM) systems to provide insight into customer interactions with a brand, and to improve the quality of customer engagement To create powerful social network management for organizations to attract the right users leveraging technology at its best. As a result of our integration with Facebook and LinkedIn, we can provide our users with many benefits, including Direct Messages across social networks, and users are able to post and view their posts, not to mention view and reply to their comments.
+
+
+# How we built it
+
+**Front end:** For the UI part we have used Bootstrap, HTML and CSS which is then converted into react components. **Facebook graph APIs:** We have used the Facebook developer graph tool for getting the endpoints for messenger and posts.
+**Front end **- backend integration: We have used Axios which is an NPM package for calling APIs and after that, we have used a few state management hooks provided by react.js i.e useState, useEffect and a very popular package Recoil for storing global states. Login: For the login part I used Facebook SDK. In the login method I set all the required permissions for the access_key and then storing the pageid and access_key in a recoil global state. **Messenger**: Messenger part was simple for integration, made the state management with props and react hooks. The API endpoints i.e the access_key and pageid were fetched from the global state. Posts: For the posts, the state management is the same as the messenger one. The only tricky part was the mapping of comments and replies but I managed to do that using nested maps which worked well.
+**Backend**: For backend we have used AWS RDS mySQL database and Node js to create APIs for different operations and S3 bucket to store the files. We also created a scheduling operation with Cron Node.js which triggers every second to check for queries matching the timestamp and sends the email to all the user if matches. We developed a backend with node.js and twitter v2 apis to get all the required apis for twitter endpoints. 
+**Deployment**: We created a serverless architecture with AWS lambda, AWS API gateway and AWS S3 bucket. Demo Site: [SocioPhin](https://main.d3n22laf955pa1.amplifyapp.com/)
+
+
+# 📝 Installing Guides
+
+## Serverless Framework Node Express API on AWS
 
 This template demonstrates how to develop and deploy a simple Node Express API service running on AWS Lambda using the traditional Serverless Framework.
 
@@ -121,3 +144,18 @@ serverless offline
 ```
 
 To learn more about the capabilities of `serverless-offline`, please refer to its [GitHub repository](https://github.com/dherault/serverless-offline).
+# 🚦 API Docs
+
+## Facebbok Graph APIs
+The Graph API is the primary way for apps to read and write to the Facebook social graph. All of our SDKs and products interact with the Graph API in some way, and our other APIs are extensions of the Graph API, so understanding how the Graph API works is crucial. 
+**[The latest version is:v12.0](https://developers.facebook.com/docs/graph-api/)**
+## Twitter APIs:
+Use the Twitter API to listen to and analyze the public conversation, engage with people on Twitter, and innovate. Here you can see how the recent search endpoint was used to find Tweets with specific keywords.
+**[Twitter API V2.2
+](https://developer.twitter.com/en/docs)**
+
+
+# 💬 Contact Us
+Link: https://main.d3n22laf955pa1.amplifyapp.com/ <br>
+Backend Repo: https://github.com/anishdutta/SocialCRM_Node_BE <br>
+Frontend Repo: https://github.com/ad-saxena/sociophin_Fe <br>
